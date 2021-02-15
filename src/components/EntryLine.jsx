@@ -1,7 +1,10 @@
 import React from 'react';
 import { Grid, Icon, Segment } from 'semantic-ui-react';
 
-const EntryLine = ({ description, value, isExpense = false }) => {
+// object props destructuring
+const EntryLine = ({
+  entry: { id, description, value, isExpense = false },
+}) => {
   return (
     <Segment color={isExpense ? 'red' : 'green'}>
       <Grid columns={3} textAlign='right'>
