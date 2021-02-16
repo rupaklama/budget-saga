@@ -1,27 +1,36 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 import ButtonSaveOrCancel from './ButtonSaveOrCancel';
+import EntryForm from './EntryForm';
 
-const NewEntryForm = () => {
+const NewEntryForm = ({
+  addEntry,
+  description,
+  value,
+  isExpense,
+  setIsExpense,
+  setDescription,
+  setValue,
+}) => {
   return (
     <Form unstackable>
-      <Form.Group>
-        <Form.Input
-          placeholder='New shinny thing'
-          icon='tags'
-          width={12}
-          label='Description'
-        />
-        <Form.Input
-          placeholder='100.00'
-          icon='dollar'
-          iconPosition='left'
-          width={4}
-          label='Value'
-        />
-      </Form.Group>
+      <EntryForm
+        description={description}
+        value={value}
+        isExpense={isExpense}
+        setIsExpense={setIsExpense}
+        setDescription={setDescription}
+        setValue={setValue}
+      />
 
-      <ButtonSaveOrCancel />
+      <ButtonSaveOrCancel
+        addEntry={addEntry}
+        description={description}
+        value={value}
+        isExpense={isExpense}
+        setValue={setValue}
+        setDescription={setDescription}
+      />
     </Form>
   );
 };
