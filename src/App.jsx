@@ -14,25 +14,25 @@ const initialEntries = [
   {
     id: 1,
     description: 'Work income',
-    value: '$1000,00',
+    value: 1000.0,
     isExpense: false,
   },
   {
     id: 2,
     description: 'Water bill',
-    value: '$20',
+    value: 20.0,
     isExpense: true,
   },
   {
     id: 3,
     description: 'Rent',
-    value: '$300',
+    value: 300.0,
     isExpense: true,
   },
   {
     id: 4,
     description: 'Power bill',
-    value: '$50',
+    value: 50.0,
     isExpense: true,
   },
 ];
@@ -44,6 +44,9 @@ function App() {
   const [isExpense, setIsExpense] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [entryId, setEntryId] = useState(null);
+  const [incomeTotal, setIncomeTotal] = useState(0);
+  const [expenseTotal, setExpenseTotal] = useState(0);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     if (!isOpen && entryId) {
@@ -55,9 +58,34 @@ function App() {
       newEntries[index].value = value;
       newEntries[index].isExpense = isExpense;
       setEntries(newEntries);
+      resetEntry();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
+
+  // updating total when we have a new entry
+  useEffect(() => {
+    let totalIncome = 0;
+    let totalExpense = 0;
+
+    entries.map(entry => {
+      if (entry.isExpense) {
+        return (totalExpense += Number(entry.value));
+      }
+
+      return (totalIncome += Number(entry.value));
+    });
+
+    setTotal(totalIncome - totalExpense);
+    setExpenseTotal(totalExpense);
+    setIncomeTotal(totalIncome);
+  }, [entries]);
+
+  const resetEntry = () => {
+    setDescription('');
+    setValue('');
+    setIsExpense(true);
+  };
 
   const deleteEntry = id => {
     const result = entries.filter(entry => entry.id !== id);
@@ -65,7 +93,7 @@ function App() {
     setEntries(result);
   };
 
-  const addEntry = (description, value, isExpense) => {
+  const addEntry = () => {
     const result = entries.concat({
       id: entries.length + 1,
       description,
@@ -74,6 +102,7 @@ function App() {
     });
 
     setEntries(result);
+    resetEntry();
   };
 
   const editEntry = id => {
@@ -96,9 +125,12 @@ function App() {
     <Container>
       <MainHeader title='Budget Saga' />
 
-      <DisplayBalance title='Your Balance:' value='2,550.53' size='small' />
+      <DisplayBalance title='Your Balance:' value={`$${total}`} size='small' />
 
-      <DisplayAllBalance />
+      <DisplayAllBalance
+        expenseTotal={expenseTotal}
+        incomeTotal={incomeTotal}
+      />
 
       <MainHeader title='History' type='h3' />
 

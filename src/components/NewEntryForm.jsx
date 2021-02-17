@@ -25,9 +25,6 @@ const NewEntryForm = ({
 
       <ButtonSaveOrCancel
         addEntry={addEntry}
-        description={description}
-        value={value}
-        isExpense={isExpense}
         setValue={setValue}
         setDescription={setDescription}
       />

@@ -3,16 +3,14 @@ import { Button } from 'semantic-ui-react';
 
 const ButtonSaveOrCancel = ({
   addEntry,
-  description,
-  value,
-  isExpense,
+
   setValue,
   setDescription,
 }) => {
   const handleClick = e => {
     e.preventDefault();
 
-    addEntry(description, value, isExpense);
+    addEntry();
 
     setValue('');
     setDescription('');
